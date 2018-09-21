@@ -2,14 +2,29 @@
 #include <fstream>
 #include "ray.h"
 // #include "vec3.h"
-
+float HitSphere(const vec3& center, float radius, const Ray& ray){
+    vec3 oc = ray.origin() - center;
+    float a = dot(ray.direction(), ray.direction());
+    float b = 2.0 * dot(oc, ray.direction());
+    float c = dot(oc, oc) - radius * radius;
+    float discriminant = b*b - 4*a*c;
+    if(discriminant < 0){
+        return -1.0;
+    }
+    else{
+        return (-b - sqrt(discriminant))/(2.0*a);
+    }
+}
 vec3 color(const Ray& r){
+    float t = HitSphere(vec3(0,0, 1), .5, r);
+    if(t > 0.0){
+        vec3 normal = unit_vector(r.point_at_parameter(t) - vec3(0,0,-1));
+        return 0.5 * vec3(normal.x() + 1, normal.y() + 1, normal.z() + 1);
+    }
+    // Generate the background gradient
     vec3 unit_direction = unit_vector(r.direction());
-    float t = 0.5*(unit_direction.y() + 1.0);
-    std::cout << "unit_direction.y(): " << unit_direction.y() << std::endl;
-    std::cout << "Calculated t: " << t << std::endl;
+    t = 0.5*(unit_direction.y() + 1.0);
     vec3 out = (1.0-t)*vec3(1.0, 1.0, 1.0) + t*vec3(0.5, 0.7, 1.0);
-    std::cout << "r: " << out[0] << "g: " << out[1] << "b: " << out[2];
     return out;
     
 }
@@ -24,36 +39,21 @@ int main(){
     // End header information
     
     // Camera setup information
-    vec3 lower_left_corner(-width/2, -height/2, -height/2);
+    vec3 lower_left_corner(-width/2, -height/2, -5);
     vec3 horizontal(width/2, 0.0, 0.0);
     vec3 vertical(0.0, width/2, 0.0);
-    vec3 origin(0.0, 0.0, 0.0);
+    vec3 origin(0.0, 0.0, 10);
 
     for(int j = height - 1; j >= 0; j--){
         for(int i = 0; i < width; i++){
             float u = float(i)/float(width);
             float v = float(j)/float(height);
-            // float b = 0.2;
             Ray ray(origin, lower_left_corner + u*horizontal + v*vertical);
-            vec3 test = u*horizontal;
-            std::cout << "test values: " << test[0] << " " << test[1] << " " << test[2];            
-            if(ray.B[2] == 0){
-                std::cout << "You're fucked" << std::endl;
-            }
-            std::cout << ray.B[0] << ray.B[1] << ray.B[2] << std::endl;
-            std::cout << "(x: " << i << ", " << "y: "  << j << ")" << std::endl;
             vec3 col = color(ray);
-            std::cout << "blue: "<< int(255.99*col[2]) << std::endl; 
             int ir = int(255.99*col[0]);
             int ig = int(255.99*col[1]);
             int ib = int(255.99*col[2]);
-            write_file << ir << " " << ig << " " << ib << "\n";
-            // write_file << ib << std::endl;
-            // if(ib > 255){
-            //     std::cout << "ib greater than 1"<< std::endl;
-            //     std::cout << col[2] << std::endl;
-            // }
-        std::cout << std::endl;
+            write_file << ir << " " << ig << " " << ib << std::endl;
         }
     }
     write_file.close();
