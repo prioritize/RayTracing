@@ -4,18 +4,18 @@
 class Ray{
     public:
         Ray() {}
-        Ray(const vec3& a, const vec3& b) {A = a; B = b;}
-        vec3 origin() const {
+        Ray(const Vector3& a, const Vector3& b) {A = a; B = b;}
+        Vector3 origin() const {
             return A;
         }
-        vec3 direction() const {
+        Vector3 direction() const {
             return B;
         }
-        vec3 point_at_parameter(float t) const{
+        Vector3 point_at_parameter(float t) const{
             return A + t*B;
         }
-        vec3 A;
-        vec3 B;
+        Vector3 A;
+        Vector3 B;
 };
 
 #endif

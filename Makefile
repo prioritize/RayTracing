@@ -39,7 +39,7 @@ student: main.o student_func.o HW4.o loadSaveImage.o compare.o reference_calc.o 
 	$(NVCC) -o HW4 main.o student_func.o HW4.o loadSaveImage.o compare.o reference_calc.o -L $(OPENCV_LIBPATH) $(OPENCV_LIBS) $(NVCC_OPTS)
 
 filegen: file_generator.cpp
-	g++ file_generator.cpp -o file_gen $(GCC_OPTS) 
+	g++ file_generator.cpp -o filegen $(GCC_OPTS) 
 resize : resizeApril.cpp
 	g++ resizeApril.cpp -o resize  $(GCC_OPTS) -I $(OPENCV_LIBS)
 testVals :testVals.cu
