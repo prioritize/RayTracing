@@ -1,0 +1,10 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskName": "task-file_generator",
+      "appliesTo": "file_generator.cpp",
+      "type": "launch"
+    }
+  ]
+}

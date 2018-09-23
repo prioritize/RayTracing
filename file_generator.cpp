@@ -4,6 +4,10 @@
 #include "sphere.h"
 #include "hitablelist.h"
 
+#ifndef MAXFLOAT
+#define MAXFLOAT FLT_MAX
+#endif
+
 Vector3 color(const Ray& ray, Hitable *world){
     HitRecord record;    
     if(world->Hit(ray, 0.0, MAXFLOAT, record)){
