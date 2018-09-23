@@ -55,6 +55,12 @@ inline Vector3& Vector3::operator/=(const float t){
     e[2] *= k;
     return *this;
 }
+inline Vector3& Vector3::operator+=(const Vector3 &v){
+    e[0]  += v.e[0];
+    e[1]  += v.e[1];
+    e[2]  += v.e[2];
+    return *this;
+}
 inline Vector3 operator*(Vector3 v, float t){
     return Vector3(v.e[0]*t, v.e[1]*t, v.e[2]*t);
 }
